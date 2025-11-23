@@ -23,16 +23,16 @@ module lockpick_game (
   state_t state, next_state;
 
   logic [4:0] byte_count;
-  logic [127:0] key_a, key_b, result_msg;
-  logic [127:0] challenge_hash;
+  logic [255:0] key_a, key_b, result_msg;
+  logic [255:0] challenge_hash;
   logic [1:0]   attempts;
   logic         hash_match;
 
-  logic [7:0] sbox_table [0:127];
+  logic [7:0] sbox_table [0:255];
 
   // Challenge target (constant internal 256-bit value)
-  logic [127:0] challenge_target;
-  assign challenge_target = 128'hCAFEBABE_12345678_DEADBEEF_FEEDFACE;
+  logic [255:0] challenge_target;
+  assign challenge_target = 256'hCAFEBABE_12345678_DEADBEEF_FEEDFACE_C001D00D_BADC0DE5_BAADF00D_0BADBEEF;
 
   initial
     begin
@@ -164,6 +164,134 @@ module lockpick_game (
       sbox_table[125] = 8'hff;
       sbox_table[126] = 8'hf3;
       sbox_table[127] = 8'hd2;
+      sbox_table[128] = 8'hcd;
+      sbox_table[129] = 8'h0c;
+      sbox_table[130] = 8'h13;
+      sbox_table[131] = 8'hec;
+      sbox_table[132] = 8'h5f;
+      sbox_table[133] = 8'h97;
+      sbox_table[134] = 8'h44;
+      sbox_table[135] = 8'h17;
+      sbox_table[136] = 8'hc4;
+      sbox_table[137] = 8'ha7;
+      sbox_table[138] = 8'h7e;
+      sbox_table[139] = 8'h3d;
+      sbox_table[140] = 8'h64;
+      sbox_table[141] = 8'h5d;
+      sbox_table[142] = 8'h19;
+      sbox_table[143] = 8'h73;
+      sbox_table[144] = 8'h60;
+      sbox_table[145] = 8'h81;
+      sbox_table[146] = 8'h4f;
+      sbox_table[147] = 8'hdc;
+      sbox_table[148] = 8'h22;
+      sbox_table[149] = 8'h2a;
+      sbox_table[150] = 8'h90;
+      sbox_table[151] = 8'h88;
+      sbox_table[152] = 8'h46;
+      sbox_table[153] = 8'hee;
+      sbox_table[154] = 8'hb8;
+      sbox_table[155] = 8'h14;
+      sbox_table[156] = 8'hde;
+      sbox_table[157] = 8'h5e;
+      sbox_table[158] = 8'h0b;
+      sbox_table[159] = 8'hdb;
+      sbox_table[160] = 8'he0;
+      sbox_table[161] = 8'h32;
+      sbox_table[162] = 8'h3a;
+      sbox_table[163] = 8'h0a;
+      sbox_table[164] = 8'h49;
+      sbox_table[165] = 8'h06;
+      sbox_table[166] = 8'h24;
+      sbox_table[167] = 8'h5c;
+      sbox_table[168] = 8'hc2;
+      sbox_table[169] = 8'hd3;
+      sbox_table[170] = 8'hac;
+      sbox_table[171] = 8'h62;
+      sbox_table[172] = 8'h91;
+      sbox_table[173] = 8'h95;
+      sbox_table[174] = 8'he4;
+      sbox_table[175] = 8'h79;
+      sbox_table[176] = 8'he7;
+      sbox_table[177] = 8'hc8;
+      sbox_table[178] = 8'h37;
+      sbox_table[179] = 8'h6d;
+      sbox_table[180] = 8'h8d;
+      sbox_table[181] = 8'hd5;
+      sbox_table[182] = 8'h4e;
+      sbox_table[183] = 8'ha9;
+      sbox_table[184] = 8'h6c;
+      sbox_table[185] = 8'h56;
+      sbox_table[186] = 8'hf4;
+      sbox_table[187] = 8'hea;
+      sbox_table[188] = 8'h65;
+      sbox_table[189] = 8'h7a;
+      sbox_table[190] = 8'hae;
+      sbox_table[191] = 8'h08;
+      sbox_table[192] = 8'hba;
+      sbox_table[193] = 8'h78;
+      sbox_table[194] = 8'h25;
+      sbox_table[195] = 8'h2e;
+      sbox_table[196] = 8'h1c;
+      sbox_table[197] = 8'ha6;
+      sbox_table[198] = 8'hb4;
+      sbox_table[199] = 8'hc6;
+      sbox_table[200] = 8'he8;
+      sbox_table[201] = 8'hdd;
+      sbox_table[202] = 8'h74;
+      sbox_table[203] = 8'h1f;
+      sbox_table[204] = 8'h4b;
+      sbox_table[205] = 8'hbd;
+      sbox_table[206] = 8'h8b;
+      sbox_table[207] = 8'h8a;
+      sbox_table[208] = 8'h70;
+      sbox_table[209] = 8'h3e;
+      sbox_table[210] = 8'hb5;
+      sbox_table[211] = 8'h66;
+      sbox_table[212] = 8'h48;
+      sbox_table[213] = 8'h03;
+      sbox_table[214] = 8'hf6;
+      sbox_table[215] = 8'h0e;
+      sbox_table[216] = 8'h61;
+      sbox_table[217] = 8'h35;
+      sbox_table[218] = 8'h57;
+      sbox_table[219] = 8'hb9;
+      sbox_table[220] = 8'h86;
+      sbox_table[221] = 8'hc1;
+      sbox_table[222] = 8'h1d;
+      sbox_table[223] = 8'h9e;
+      sbox_table[224] = 8'he1;
+      sbox_table[225] = 8'hf8;
+      sbox_table[226] = 8'h98;
+      sbox_table[227] = 8'h11;
+      sbox_table[228] = 8'h69;
+      sbox_table[229] = 8'hd9;
+      sbox_table[230] = 8'h8e;
+      sbox_table[231] = 8'h94;
+      sbox_table[232] = 8'h9b;
+      sbox_table[233] = 8'h1e;
+      sbox_table[234] = 8'h87;
+      sbox_table[235] = 8'he9;
+      sbox_table[236] = 8'hce;
+      sbox_table[237] = 8'h55;
+      sbox_table[238] = 8'h28;
+      sbox_table[239] = 8'hdf;
+      sbox_table[240] = 8'h8c;
+      sbox_table[241] = 8'ha1;
+      sbox_table[242] = 8'h89;
+      sbox_table[243] = 8'h0d;
+      sbox_table[244] = 8'hbf;
+      sbox_table[245] = 8'he6;
+      sbox_table[246] = 8'h42;
+      sbox_table[247] = 8'h68;
+      sbox_table[248] = 8'h41;
+      sbox_table[249] = 8'h99;
+      sbox_table[250] = 8'h2d;
+      sbox_table[251] = 8'h0f;
+      sbox_table[252] = 8'hb0;
+      sbox_table[253] = 8'h54;
+      sbox_table[254] = 8'hbb;
+      sbox_table[255] = 8'h16;
      end
   
 
@@ -183,10 +311,10 @@ module lockpick_game (
         if (start) next_state = INPUT_A;
 
       INPUT_A:
-        if (input_enable && byte_count == 5'd15) next_state = INPUT_B;
+        if (input_enable && byte_count == 5'd31) next_state = INPUT_B;
 
       INPUT_B:
-        if (input_enable && byte_count == 5'd15) next_state = HASH;
+        if (input_enable && byte_count == 5'd31) next_state = HASH;
 
       HASH:
         next_state = COMPARE;
@@ -195,7 +323,7 @@ module lockpick_game (
         next_state = OUTPUT;
 
       OUTPUT:
-        if (byte_count == 5'd15) begin
+        if (byte_count == 5'd31) begin
           if (hash_match || attempts == 2'd2)
             next_state = IDLE;
           else
@@ -228,39 +356,39 @@ module lockpick_game (
   end
   
   
-  function automatic [31:0] permute(input [31:0] x);
+  function automatic [63:0] permute(input [63:0] x);
     // Rotate each byte and then rotate whole word left by 13
     logic [7:0] b[0:7];
-    for (int i = 0; i < 4; i++) begin
+    for (int i = 0; i < 8; i++) begin
       b[i] = x[i*8 +: 8];
       b[i] = {b[i][6:0], b[i][7]};  // Rotate left 1
     end
-    x = {b[3], b[2], b[1], b[0]};
-    permute = {x[28:0], x[31:29]};  // Rotate 32-bit word left by 13
+    x = {b[7], b[6], b[5], b[4], b[3], b[2], b[1], b[0]};
+    permute = {x[50:0], x[63:51]};  // Rotate 64-bit word left by 13
   endfunction
 
-  function automatic [127:0] feistel_hash(input [127:0] in);
-    logic [31:0] A, B, C, D;
-    A = in[127:96];
-    B = in[95:64];
-    C = in[63:32];
-    D = in[31:0];
+  function automatic [255:0] feistel_hash(input [255:0] in);
+    logic [63:0] A, B, C, D;
+    A = in[255:192];
+    B = in[191:128];
+    C = in[127:64];
+    D = in[63:0];
 
     for (int round = 0; round < 3; round++) begin
-      logic [31:0] F;
-      F = ((B ^ D) + (A | C)) ^ {C[15:0], D[15:0]};
+      logic [63:0] F;
+      F = ((B ^ D) + (A | C)) ^ {C[31:0], D[31:0]};
       F = permute(F);
 
       // Apply S-box to each byte of F
-      for (int j = 0; j < 4; j++) begin
-        F[j*8 +: 8] = sbox_table[F[j*8 +: 7]];
+      for (int j = 0; j < 8; j++) begin
+        F[j*8 +: 8] = sbox_table[F[j*8 +: 8]];
       end
 
       A ^= F;
-      B = {B[14:0], B[31:15]};  // Left rotate 16
+      B = {B[30:0], B[63:31]};  // Left rotate 33
       C += A;
       D = ~D ^ B;
-      A = {A[23:0], A[31:24]};  // Left rotate 8
+      A = {A[15:0], A[63:16]};  // Left rotate 16
 
      end
 
@@ -305,10 +433,10 @@ module lockpick_game (
   always_ff @(posedge clk) begin
     if (state == COMPARE) begin
       result_msg <= hash_match
-              ? {8{16'hFACE}}
+                    ? {8{32'hFACEFACE}}
                     : (attempts == 2'd2
-                       ? {8{16'hDEAD}} // locked out
-                       : {8{16'hBAD0}}); // error
+                        ? {8{32'hDEADDEAD}} // locked out
+                        : {8{32'hBAD0BAD0}}); // error
     end
   end
 
