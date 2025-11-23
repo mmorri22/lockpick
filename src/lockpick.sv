@@ -157,7 +157,7 @@ module tt_um_mmorri22_lockpick_game (
 
       // Apply S-box to each byte of F
       for (int j = 0; j < 8; j++) begin
-        F[j*8 +: 8] = sbox(F[j*8 +: 8]);
+        F[j*8 +: 8] = sbox_table[F[j*8 +: 8]];
       end
 
       A ^= F;
