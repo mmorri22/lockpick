@@ -232,7 +232,7 @@ endmodule
 module tt_um_mmorri22_lockpick_game (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
-    input  wire [7:0] uio_in,   // IOs: Input path
+    input  wire [1:0] uio_in,   // IOs: Input path
     output wire [7:0] uio_out,  // IOs: Output path
     output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
     input  wire       ena,      // always 1 when the design is powered, so you can ignore it
@@ -248,7 +248,7 @@ module tt_um_mmorri22_lockpick_game (
     .input_data(ui_in),
     .output_valid(uio_out[2]),
     .output_data(uo_out),
-    .status(uio_out[5:4])
+    .status(uio_out[4:3])
   );
 
   // Assign enable paths 
@@ -258,7 +258,14 @@ module tt_um_mmorri22_lockpick_game (
   assign uio_oe[3] = 1'b1;
   assign uio_oe[4] = 1'b1;
   assign uio_oe[5] = 1'b1;
-  
+
+ 
   // avoid linter warning about unused pins:
-  wire _unused_pins = ena;    
+  wire _unused_pins = ena;   
+  assign uio_out[7] = _unused_pins;
+  assign uio_out[6] = _unused_pins;
+  assign uio_out[5] = _unused_pins;
+  assign uio_out[1] = _unused_pins;
+  assign uio_out[0] = _unused_pins;  
+  
 endmodule
