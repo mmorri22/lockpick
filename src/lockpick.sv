@@ -1,6 +1,6 @@
 module tt_um_mmorri22_lockpick_game (
   input  logic        clk,
-  input  logic        n_rst,
+  input  logic        rst_n,
   input  logic        start,
   input  logic        input_enable,
   input  logic        ena,
@@ -76,7 +76,7 @@ module tt_um_mmorri22_lockpick_game (
 
   // FSM transition
   always_ff @(posedge clk or negedge rst) begin
-    if (!n_rst)
+    if (!rst_n)
       state <= IDLE;
     else
       state <= next_state;
@@ -113,7 +113,7 @@ module tt_um_mmorri22_lockpick_game (
 
   // Byte counter
   always_ff @(posedge clk or negedge rst) begin
-    if (!n_rst)
+    if (!rst_n)
       byte_count <= 5'd0;
     else if ((state == INPUT_A || state == INPUT_B) && input_enable)
       byte_count <= byte_count + 1;
@@ -181,7 +181,7 @@ module tt_um_mmorri22_lockpick_game (
 
   // Track attempts
   always_ff @(posedge clk or negedge rst) begin
-    if (!rst)
+    if (!rst_n)
       attempts <= 2'd0;
     else if (state == COMPARE && !hash_match && attempts < 2)
       attempts <= attempts + 1;
@@ -191,7 +191,7 @@ module tt_um_mmorri22_lockpick_game (
 
   // Status output
   always_ff @(posedge clk or negedge rst) begin
-    if (!n_rst)
+    if (!rst_n)
       status <= 2'b00;
     else if (state == COMPARE) begin
       if (hash_match)
