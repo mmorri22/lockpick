@@ -107,6 +107,9 @@ module lockpick_game (
           else
             next_state = INPUT_A;
         end
+
+      default next_state = IDLE;
+      
     endcase
   end
 
