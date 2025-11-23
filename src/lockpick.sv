@@ -37,7 +37,7 @@ module tt_um_mmorri22_lockpick_game (
   // Initialize the SBox
   initial
     begin
-      sbox_table = '{
+      sbox_table = {
               8'h63, 8'h7c, 8'h77, 8'h7b, 8'hf2, 8'h6b, 8'h6f, 8'hc5,
               8'h30, 8'h01, 8'h67, 8'h2b, 8'hfe, 8'hd7, 8'hab, 8'h76,
               8'hca, 8'h82, 8'hc9, 8'h7d, 8'hfa, 8'h59, 8'h47, 8'hf0,
