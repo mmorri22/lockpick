@@ -74,7 +74,7 @@ module lockpick_game (
   
 
   // FSM transition
-  always_ff @(posedge clk or negedge rst) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n)
       state <= IDLE;
     else
@@ -111,7 +111,7 @@ module lockpick_game (
   end
 
   // Byte counter
-  always_ff @(posedge clk or negedge rst) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n)
       byte_count <= 5'd0;
     else if ((state == INPUT_A || state == INPUT_B) && input_enable)
