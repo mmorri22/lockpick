@@ -43,12 +43,12 @@ pinout:
   uo[7]: "uo[7]"
 
   # Bidirectional pins
-  uio[0]: "start"
-  uio[1]: "input_enable"
-  uio[2]: "output_valid"
-  uio[3]: "status[0]"
-  uio[4]: "status[1]"
-  uio[5]: ""
+  uio[0]: "uio_in[0]"
+  uio[1]: "uio_in[1]"
+  uio[2]: "uio_out[2]"
+  uio[3]: "uio_out[3]"
+  uio[4]: "uio_out[4]"
+  uio[5]: "uio_out[5]"
   uio[6]: ""
   uio[7]: ""
 
