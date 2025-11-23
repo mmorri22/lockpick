@@ -179,7 +179,7 @@ module lockpick_game (
   end
 
   // Track attempts
-  always_ff @(posedge clk or negedge rst) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n)
       attempts <= 2'd0;
     else if (state == COMPARE && !hash_match && attempts < 2)
@@ -189,7 +189,7 @@ module lockpick_game (
   end
 
   // Status output
-  always_ff @(posedge clk or negedge rst) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n)
       status <= 2'b00;
     else if (state == COMPARE) begin
