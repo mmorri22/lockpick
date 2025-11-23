@@ -247,7 +247,7 @@ module tt_um_mmorri22_lockpick_game (
     .input_enable(uio_in[1]),
     .input_data(ui_in),
     .output_valid(uio_out[2]),
-    .output_data(uo_out[3]),
+    .output_data(uo_out),
     .status(uio_out[5:4])
   );
 
