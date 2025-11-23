@@ -2,7 +2,7 @@
 project:
   title:        "Notre Dame - Lockpick Game TT Example"      # Project title
   author:       "Matthew Morrison"      # Your name
-  discord:      "GregariouMatt"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
+  discord:      "GregariousMatt"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "An example SystemVerilog Implementation of a pipelined input/output for future TinyTapeout use in the classroom"      # One line description of what your project does
   language:     "SystemVerilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
   clock_hz:     10000       # Clock frequency in Hz (or 0 if not applicable)
