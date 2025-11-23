@@ -32,7 +32,7 @@ module lockpick_game (
 
   // Challenge target (constant internal 256-bit value)
   logic [127:0] challenge_target;
-  assign challenge_target = 126'hCAFEBABE_12345678_DEADBEEF_FEEDFACE;
+  assign challenge_target = 128'hCAFEBABE_12345678_DEADBEEF_FEEDFACE;
 
   initial
     begin
@@ -232,7 +232,7 @@ module lockpick_game (
     // Rotate each byte and then rotate whole word left by 13
     logic [7:0] b[0:7];
     for (int i = 0; i < 4; i++) begin
-      b[i] = x[i*4 +: 4];
+      b[i] = x[i*8 +: 8];
       b[i] = {b[i][6:0], b[i][7]};  // Rotate left 1
     end
     x = {b[3], b[2], b[1], b[0]};
@@ -253,7 +253,7 @@ module lockpick_game (
 
       // Apply S-box to each byte of F
       for (int j = 0; j < 4; j++) begin
-        F[j*8 +: 8] = sbox_table[F[j*8 +: 8]];
+        F[j*8 +: 8] = sbox_table[F[j*8 +: 7]];
       end
 
       A ^= F;
@@ -305,10 +305,10 @@ module lockpick_game (
   always_ff @(posedge clk) begin
     if (state == COMPARE) begin
       result_msg <= hash_match
-                    ? {8{32'hFACEFACE}}
+              ? {8{16'hFACE}}
                     : (attempts == 2'd2
-                        ? {8{32'hDEADDEAD}} // locked out
-                        : {8{32'hBAD0BAD0}}); // error
+                       ? {8{16'hDEAD}} // locked out
+                       : {8{16'hBAD0}}); // error
     end
   end
 
