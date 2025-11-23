@@ -1,4 +1,4 @@
-module lockpick_game (
+module tt_um_mmorri22_lockpick_game (
   input  logic        clk,
   input  logic        rst,
   input  logic        start,
