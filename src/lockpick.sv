@@ -1,9 +1,8 @@
-module tt_um_mmorri22_lockpick_game (
+module lockpick_game (
   input  logic        clk,
   input  logic        rst_n,
   input  logic        start,
   input  logic        input_enable,
-  input  logic        ena,
   input  logic [7:0]  input_data,
 
   output logic        output_valid,
@@ -227,7 +226,39 @@ module tt_um_mmorri22_lockpick_game (
     end
   end
 
-  // avoid linter warning about unused pins:
-  wire _unused_pins = ena;  
+endmodule
 
+
+module tt_um_mmorri22_lockpick_game (
+    input  wire [7:0] ui_in,    // Dedicated inputs
+    output wire [7:0] uo_out,   // Dedicated outputs
+    input  wire [7:0] uio_in,   // IOs: Input path
+    output wire [7:0] uio_out,  // IOs: Output path
+    output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
+    input  wire       ena,      // always 1 when the design is powered, so you can ignore it
+    input  wire       clk,      // clock
+    input  wire       rst_n     // reset_n - low to reset
+);
+
+  lockpick_game design_example(
+    .clk(clk),
+    .rst_n(rst_n),
+    .start(uio_in[0]),
+    .input_enable(uio_in[1]),
+    .input_data(ui_in),
+    .output_valid(uio_out[2]),
+    .output_data(uo_out[3]),
+    .status(uio_out[5:4])
+  );
+
+  // Assign enable paths 
+  assign uio_oe[0] = 1'b0;
+  assign uio_oe[1] = 1'b0;
+  assign uio_oe[2] = 1'b1;
+  assign uio_oe[3] = 1'b1;
+  assign uio_oe[4] = 1'b1;
+  assign uio_oe[5] = 1'b1;
+  
+  // avoid linter warning about unused pins:
+  wire _unused_pins = ena;    
 endmodule
