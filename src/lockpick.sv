@@ -190,7 +190,11 @@ module lockpick_game (
         if (input_enable && byte_count == 5'd15) next_state = HASH;
 
       HASH:
-        next_state = COMPARE;
+        if (hash_done)
+          next_state = COMPARE;
+        else
+          next_state = HASH;
+
 
       COMPARE:
         next_state = OUTPUT;
