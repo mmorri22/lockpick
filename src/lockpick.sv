@@ -1,3 +1,10 @@
+/*****************************************
+ * Author: Matthew Morrison
+ * Email: matt.morrison@nd.edu
+ * File Name: lockpick.sv
+ * Date Pushed to TT: 11/24/2025
+ *****************************************/
+
 module lockpick_game (
   input  logic        clk,
   input  logic        rst_n,
