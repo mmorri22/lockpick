@@ -4,9 +4,9 @@
 # defaults
 SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
-TOPLEVEL_LANG ?= verilog
+TOPLEVEL_LANG ?= systemverilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
+PROJECT_SOURCES = lockpick.sv
 
 ifneq ($(GATES),yes)
 
