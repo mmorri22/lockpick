@@ -269,12 +269,81 @@ module lockpick_game (
   endfunction
  
   // Hash and compare
-  always_ff @(posedge clk) begin
-    if (state == HASH)
-      challenge_hash <= feistel_hash(key_a ^ key_b);
-    if (state == COMPARE)
-      hash_match <= (challenge_hash == challenge_target);
+  //---------------------------------------------------------
+  // Multi-cycle HASH + COMPARE block (full replacement)
+  //---------------------------------------------------------
+  logic [31:0] A_reg, B_reg, C_reg, D_reg;
+  logic [1:0]  round;
+  logic        hash_busy, hash_done;
+  
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      // HASH engine reset
+      hash_busy <= 1'b0;
+      hash_done <= 1'b0;
+      round     <= 2'd0;
+  
+      // COMPARE reset
+      hash_match <= 1'b0;
+    end 
+      
+    else begin
+      //-----------------------------------------------------
+      // Kick off Feistel hash when entering HASH state
+      //-----------------------------------------------------
+      if (state == HASH && !hash_busy) begin
+        {A_reg, B_reg, C_reg, D_reg} <= key_a ^ key_b;
+        round     <= 2'd0;
+        hash_busy <= 1'b1;
+        hash_done <= 1'b0;
+      end
+  
+      //-----------------------------------------------------
+      // Perform ONE Feistel round per cycle
+      //-----------------------------------------------------
+      else if (state == HASH && hash_busy) begin
+        logic [31:0] F;
+  
+        // Round function
+        F = ((B_reg ^ D_reg) + (A_reg | C_reg)) ^ {C_reg[15:0], D_reg[15:0]};
+        F = permute(F);
+  
+        // S-box substitution
+        for (int j = 0; j < 4; j++)
+          F[j*8 +: 8] = sbox_table[F[j*8 +: 7]];
+  
+        // Feistel mixing (note: A_reg updated twice — may split if needed)
+        A_reg <= (A_reg ^ F);
+        B_reg <= {B_reg[14:0], B_reg[31:15]};
+        C_reg <= C_reg + A_reg;
+        D_reg <= ~D_reg ^ B_reg;
+        A_reg <= {A_reg[23:0], A_reg[31:24]};
+  
+        // End of final round?
+        if (round == 2) begin
+          challenge_hash <= {A_reg, B_reg, C_reg, D_reg};
+          hash_busy <= 1'b0;
+          hash_done <= 1'b1;
+        end 
+        else begin
+          round <= round + 1;
+        end
+      end
+  
+      //-----------------------------------------------------
+      // COMPARE state (unchanged from your original code)
+      //-----------------------------------------------------
+      if (state == COMPARE)
+        hash_match <= (challenge_hash == challenge_target);
+  
+      //-----------------------------------------------------
+      // Default cleanup: stop asserting hash_done
+      //-----------------------------------------------------
+      if (state != HASH)
+        hash_done <= 1'b0;
+    end
   end
+
 
   // Track attempts
   always_ff @(posedge clk or negedge rst_n) begin
